@@ -39,3 +39,19 @@ module "ec2" {
   public_subnet     = module.subnet.ids[0]
   private_subnet    = module.subnet.ids[1]
 }
+
+module "rt" {
+  source = "./modules/route-table"
+
+  vpc_id         = module.vpc.id
+  nat_gateway_id = module.nat-gw.id
+  gateway_id     = module.gateway.id
+  private_subnet = module.subnet.ids[1]
+  public_subnet  = module.subnet.ids[0]
+}
+
+module "sg" {
+  source = "./modules/security-group"
+
+  vpc_id = module.vpc.id
+}
